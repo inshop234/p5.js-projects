@@ -1,0 +1,91 @@
+//sketch.js 
+let flowers = [];
+let num = 15;
+
+function setup() {
+  createCanvas(400, 400);
+  angleMode(DEGREES);
+  for(let i=0; i<num; i++) {
+     flowers[i] = new Flower(140 - i*10, 100, 15, 7, (i + 1)*0.1);
+  }
+}
+
+function draw() {
+  background(0);
+  translate(width/2, height/2);
+  for(let i=0; i<num; i++) {
+     flowers[i].display();
+  }
+  
+}
+
+//flower.js
+class Flower {
+ constructor(r = 100, pts = 100, f_amp = 15, period = 7, speed = 1) {
+    this.x = [];
+    this.y = [];
+    this.r = r;
+    this.pts = pts;
+    
+    this.f_radius = 0;
+    this.f_amp = f_amp;
+    this.period = period;
+    
+    this.speed = speed;
+    this.rot = 0;
+  }
+
+  display() {
+    push();
+    blendMode(DIFFERENCE);
+    noStroke();
+    fill(255);
+    beginShape();
+    for (let i=0; i<this.pts; i++) {
+    let angle = i/this.pts * 360;
+    this.f_radius = this.f_amp*cos(angle * this.period);
+    this.x[i] = (this.r + this.f_radius)*cos(angle + this.rot);
+    this.y[i] = (this.r + this.f_radius)*sin(angle + this.rot);
+    vertex(this.x[i], this.y[i]);
+  }
+  endShape(CLOSE);
+  pop();
+   this.rot += this.speed;
+  }
+}
+
+//index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.2/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5.sound@0.4.1/dist/p5.sound.min.js"></script>
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <main>
+    </main>
+    <script src="sketch.js"></script>
+     <script src="flower.js"></script>
+  </body>
+</html>
+
+
+
+//style.css
+  html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+
+  
+//
